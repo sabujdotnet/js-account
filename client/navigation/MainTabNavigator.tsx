@@ -1,15 +1,20 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
-import { Platform, StyleSheet } from "react-native";
-import HomeStackNavigator from "@/navigation/HomeStackNavigator";
-import ProfileStackNavigator from "@/navigation/ProfileStackNavigator";
-import { useTheme } from "@/hooks/useTheme";
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { Platform, StyleSheet } from 'react-native';
+
+import DashboardStackNavigator from '@/navigation/DashboardStackNavigator';
+import TransactionsStackNavigator from '@/navigation/TransactionsStackNavigator';
+import LaborStackNavigator from '@/navigation/LaborStackNavigator';
+import MoreStackNavigator from '@/navigation/MoreStackNavigator';
+import { useTheme } from '@/hooks/useTheme';
 
 export type MainTabParamList = {
-  HomeTab: undefined;
-  ProfileTab: undefined;
+  DashboardTab: undefined;
+  TransactionsTab: undefined;
+  LaborTab: undefined;
+  MoreTab: undefined;
 };
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -19,24 +24,24 @@ export default function MainTabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeTab"
+      initialRouteName="DashboardTab"
       screenOptions={{
-        tabBarActiveTintColor: theme.tabIconSelected,
+        tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.tabIconDefault,
         tabBarStyle: {
-          position: "absolute",
+          position: 'absolute',
           backgroundColor: Platform.select({
-            ios: "transparent",
+            ios: 'transparent',
             android: theme.backgroundRoot,
           }),
           borderTopWidth: 0,
           elevation: 0,
         },
         tabBarBackground: () =>
-          Platform.OS === "ios" ? (
+          Platform.OS === 'ios' ? (
             <BlurView
               intensity={100}
-              tint={isDark ? "dark" : "light"}
+              tint={isDark ? 'dark' : 'light'}
               style={StyleSheet.absoluteFill}
             />
           ) : null,
@@ -44,22 +49,42 @@ export default function MainTabNavigator() {
       }}
     >
       <Tab.Screen
-        name="HomeTab"
-        component={HomeStackNavigator}
+        name="DashboardTab"
+        component={DashboardStackNavigator}
         options={{
-          title: "Home",
+          title: 'Dashboard',
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" size={size} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="ProfileTab"
-        component={ProfileStackNavigator}
+        name="TransactionsTab"
+        component={TransactionsStackNavigator}
         options={{
-          title: "Profile",
+          title: 'Transactions',
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+            <Feather name="list" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="LaborTab"
+        component={LaborStackNavigator}
+        options={{
+          title: 'Labor',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="users" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MoreTab"
+        component={MoreStackNavigator}
+        options={{
+          title: 'More',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="menu" size={size} color={color} />
           ),
         }}
       />
