@@ -1,12 +1,20 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainTabNavigator from "@/navigation/MainTabNavigator";
-import ModalScreen from "@/screens/ModalScreen";
-import { useScreenOptions } from "@/hooks/useScreenOptions";
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import MainTabNavigator from '@/navigation/MainTabNavigator';
+import AddTransactionScreen from '@/screens/AddTransactionScreen';
+import TransactionDetailScreen from '@/screens/TransactionDetailScreen';
+import AddPaymentScreen from '@/screens/AddPaymentScreen';
+import PaymentDetailScreen from '@/screens/PaymentDetailScreen';
+import { useScreenOptions } from '@/hooks/useScreenOptions';
+import { Transaction, LaborPayment } from '@/types';
 
 export type RootStackParamList = {
   Main: undefined;
-  Modal: undefined;
+  AddTransaction: undefined;
+  TransactionDetail: { transaction: Transaction };
+  AddPayment: { weekStart: string };
+  PaymentDetail: { payment: LaborPayment };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -22,11 +30,33 @@ export default function RootStackNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Modal"
-        component={ModalScreen}
+        name="AddTransaction"
+        component={AddTransactionScreen}
         options={{
-          presentation: "modal",
-          headerTitle: "Modal",
+          presentation: 'modal',
+          headerTitle: 'New Entry',
+        }}
+      />
+      <Stack.Screen
+        name="TransactionDetail"
+        component={TransactionDetailScreen}
+        options={{
+          headerTitle: 'Transaction',
+        }}
+      />
+      <Stack.Screen
+        name="AddPayment"
+        component={AddPaymentScreen}
+        options={{
+          presentation: 'modal',
+          headerTitle: 'Log Payment',
+        }}
+      />
+      <Stack.Screen
+        name="PaymentDetail"
+        component={PaymentDetailScreen}
+        options={{
+          headerTitle: 'Payment Details',
         }}
       />
     </Stack.Navigator>
