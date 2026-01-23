@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "BuildLedger",
-    "slug": "buildledger",
+    "name": "J&S Enterprise",
+    "slug": "jsenterprise",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "buildledger",
+    "scheme": "jsenterprise",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.buildledger.app"
+      "bundleIdentifier": "com.jsenterprise.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.buildledger.app"
+      "package": "com.jsenterprise.app"
     },
     "web": {
       "output": "single",
