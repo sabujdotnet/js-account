@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "J&S Enterprise",
-    "slug": "jsenterprise",
+    "name": "J&S Accounting",
+    "slug": "js-accounting",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "jsenterprise",
+    "scheme": "js-accounting",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jsenterprise.app"
+      "bundleIdentifier": "com.jsaccounting.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.jsenterprise.app"
+      "package": "com.jsaccounting.app"
     },
     "web": {
       "output": "single",
