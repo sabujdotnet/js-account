@@ -1,1 +1,1 @@
-# js-account
+# js-accounting
