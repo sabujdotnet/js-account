@@ -105,7 +105,7 @@ export default function MoreScreen({ navigation }: MoreScreenProps) {
         <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: 'center' }}>
           BuildLedger v1.0.0
         </ThemedText>
-        <ThemedText type="caption" style={{ color: theme.textSecondary, textAlign: 'center', marginTop: Spacing.xs }}>
+        <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: 'center', marginTop: Spacing.xs, fontSize: 12 }}>
           Construction Financial Tracker
         </ThemedText>
       </View>

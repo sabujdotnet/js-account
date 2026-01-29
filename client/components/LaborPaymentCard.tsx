@@ -60,7 +60,7 @@ export function LaborPaymentCard({ payment, onPress, onTogglePaid }: LaborPaymen
         <ThemedText type="small" style={{ color: theme.textSecondary }}>
           {daysWorked}d | {payment.regularHours || 0}hrs + {payment.overtimeHours || 0}OT
         </ThemedText>
-        <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+        <ThemedText type="small" style={{ color: theme.textSecondary, fontSize: 12 }}>
           @ {formatCurrency(payment.hourlyRate)}/hr
         </ThemedText>
       </View>

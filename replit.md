@@ -56,6 +56,7 @@ client/
 │   ├── AddTransactionScreen.tsx
 │   ├── DashboardScreen.tsx
 │   ├── LaborScreen.tsx
+│   ├── MaterialCalculatorScreen.tsx
 │   ├── MoreScreen.tsx
 │   ├── PaymentDetailScreen.tsx
 │   ├── PluginsScreen.tsx
@@ -70,10 +71,11 @@ client/
 ### Key Features
 1. **Dashboard**: Overview with income, expenses, and net profit summaries
 2. **Transaction Tracking**: Add/view/delete income and expenses by category
-3. **Labor Management**: Weekly payroll tracking with worker management
+3. **Labor Management**: Weekly payroll tracking with days, regular hours, overtime hours, worker profiles
 4. **Auto-Sync**: Labor payments automatically create expense transactions
 5. **Reports**: Financial breakdown by category with visual charts
 6. **Plugin System**: Extensible architecture for future features
+7. **Material Calculator**: Estimate cement, sand, bricks, steel, aggregate based on construction area
 
 ### Categories
 - Income (Green)
@@ -89,12 +91,17 @@ The app includes a plugin system for future extensibility:
 - Available plugins: Invoice Generator, Project Tracker, Tax Calculator, Receipt Scanner, Budget Planner, Export Reports
 
 ## User Preferences
-- Currency: Indian Rupee (INR)
+- Currency: Bangladeshi Taka (BDT) ৳
 - Design: Brutally minimal with industrial accents
 - Primary Color: #FF6B35 (Construction Orange)
 - Secondary Color: #004E89 (Steel Blue)
 
 ## Recent Changes
+- Changed currency to BDT (৳)
+- Updated labor tracking: days worked, regular hours, overtime hours separately
+- Added overtime rate calculation (1.5x default)
+- Worker profiles saved and auto-populate in dropdown
+- Added Material Calculator feature (cement, sand, bricks, steel, aggregate)
 - Initial MVP build with all core features
 - Dashboard with period filtering (week/month/year)
 - Transaction CRUD with category filtering
