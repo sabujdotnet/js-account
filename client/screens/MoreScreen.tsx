@@ -25,6 +25,13 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
+    id: 'material-calculator',
+    title: 'Material Calculator',
+    description: 'Estimate materials for construction',
+    icon: 'box',
+    screen: 'MaterialCalculator',
+  },
+  {
     id: 'plugins',
     title: 'Plugins',
     description: 'Browse and install extensions',

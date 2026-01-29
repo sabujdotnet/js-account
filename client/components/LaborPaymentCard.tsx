@@ -35,6 +35,9 @@ export function LaborPaymentCard({ payment, onPress, onTogglePaid }: LaborPaymen
     onTogglePaid?.(value);
   };
 
+  const totalHours = (payment.regularHours || 0) + (payment.overtimeHours || 0);
+  const daysWorked = payment.daysWorked || 0;
+
   return (
     <AnimatedPressable
       onPress={onPress}
@@ -55,7 +58,10 @@ export function LaborPaymentCard({ payment, onPress, onTogglePaid }: LaborPaymen
           {payment.workerName}
         </ThemedText>
         <ThemedText type="small" style={{ color: theme.textSecondary }}>
-          {payment.hoursWorked} hrs @ {formatCurrency(payment.hourlyRate)}/hr
+          {daysWorked}d | {payment.regularHours || 0}hrs + {payment.overtimeHours || 0}OT
+        </ThemedText>
+        <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+          @ {formatCurrency(payment.hourlyRate)}/hr
         </ThemedText>
       </View>
       <View style={styles.rightContent}>

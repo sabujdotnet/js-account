@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Transaction, LaborPayment, Worker, Plugin } from '@/types';
+import { Transaction, LaborPayment, Worker, Plugin, MaterialEstimate } from '@/types';
 
 const KEYS = {
   TRANSACTIONS: '@buildledger_transactions',
@@ -7,6 +7,7 @@ const KEYS = {
   WORKERS: '@buildledger_workers',
   PLUGINS: '@buildledger_plugins',
   SETTINGS: '@buildledger_settings',
+  MATERIAL_ESTIMATES: '@buildledger_material_estimates',
 };
 
 export async function getTransactions(): Promise<Transaction[]> {
@@ -68,12 +69,13 @@ export async function saveLaborPayment(payment: LaborPayment): Promise<void> {
     await AsyncStorage.setItem(KEYS.LABOR_PAYMENTS, JSON.stringify(payments));
     
     if (payment.isPaid) {
+      const totalHours = payment.regularHours + payment.overtimeHours;
       const transaction: Transaction = {
         id: `labor_${payment.id}`,
         type: 'expense',
         amount: payment.totalAmount,
         category: 'labor',
-        description: `Salary: ${payment.workerName} (${payment.hoursWorked}hrs)`,
+        description: `Salary: ${payment.workerName} (${payment.daysWorked}d, ${totalHours}hrs)`,
         date: payment.weekStart,
         createdAt: new Date().toISOString(),
       };
@@ -163,6 +165,60 @@ export async function savePlugin(plugin: Plugin): Promise<void> {
   }
 }
 
+export async function getMaterialEstimates(): Promise<MaterialEstimate[]> {
+  try {
+    const data = await AsyncStorage.getItem(KEYS.MATERIAL_ESTIMATES);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('Error getting material estimates:', error);
+    return [];
+  }
+}
+
+export async function saveMaterialEstimate(estimate: MaterialEstimate): Promise<void> {
+  try {
+    const estimates = await getMaterialEstimates();
+    const index = estimates.findIndex(e => e.id === estimate.id);
+    if (index >= 0) {
+      estimates[index] = estimate;
+    } else {
+      estimates.unshift(estimate);
+    }
+    await AsyncStorage.setItem(KEYS.MATERIAL_ESTIMATES, JSON.stringify(estimates));
+  } catch (error) {
+    console.error('Error saving material estimate:', error);
+    throw error;
+  }
+}
+
+export async function deleteMaterialEstimate(id: string): Promise<void> {
+  try {
+    const estimates = await getMaterialEstimates();
+    const filtered = estimates.filter(e => e.id !== id);
+    await AsyncStorage.setItem(KEYS.MATERIAL_ESTIMATES, JSON.stringify(filtered));
+  } catch (error) {
+    console.error('Error deleting material estimate:', error);
+    throw error;
+  }
+}
+
+export function calculateMaterials(areaSqFt: number, floors: number = 1): {
+  cement: number;
+  sand: number;
+  bricks: number;
+  steel: number;
+  aggregate: number;
+} {
+  const totalArea = areaSqFt * floors;
+  return {
+    cement: Math.ceil(totalArea * 0.4),
+    sand: Math.ceil(totalArea * 0.816),
+    bricks: Math.ceil(totalArea * 8),
+    steel: Math.ceil(totalArea * 4),
+    aggregate: Math.ceil(totalArea * 0.608),
+  };
+}
+
 function getDefaultPlugins(): Plugin[] {
   return [
     {
@@ -248,9 +304,7 @@ export function getWeekEnd(weekStart: string): string {
 }
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
+  return '\u09F3' + new Intl.NumberFormat('en-BD', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);

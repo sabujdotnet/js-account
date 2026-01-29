@@ -5,6 +5,7 @@ import MoreScreen from '@/screens/MoreScreen';
 import PluginsScreen from '@/screens/PluginsScreen';
 import ReportsScreen from '@/screens/ReportsScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
+import MaterialCalculatorScreen from '@/screens/MaterialCalculatorScreen';
 import { useScreenOptions } from '@/hooks/useScreenOptions';
 
 export type MoreStackParamList = {
@@ -12,6 +13,7 @@ export type MoreStackParamList = {
   Plugins: undefined;
   Reports: undefined;
   Settings: undefined;
+  MaterialCalculator: undefined;
 };
 
 const Stack = createNativeStackNavigator<MoreStackParamList>();
@@ -47,6 +49,13 @@ export default function MoreStackNavigator() {
         component={SettingsScreen}
         options={{
           headerTitle: 'Settings',
+        }}
+      />
+      <Stack.Screen
+        name="MaterialCalculator"
+        component={MaterialCalculatorScreen}
+        options={{
+          headerTitle: 'Material Calculator',
         }}
       />
     </Stack.Navigator>
