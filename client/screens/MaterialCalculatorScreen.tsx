@@ -231,19 +231,19 @@ export default function MaterialCalculatorScreen() {
               </View>
               <View style={styles.estimateMaterials}>
                 <View style={styles.materialChip}>
-                  <ThemedText type="caption">Cement: {estimate.cement}</ThemedText>
+                  <ThemedText type="small" style={{ fontSize: 12 }}>Cement: {estimate.cement}</ThemedText>
                 </View>
                 <View style={styles.materialChip}>
-                  <ThemedText type="caption">Sand: {estimate.sand}</ThemedText>
+                  <ThemedText type="small" style={{ fontSize: 12 }}>Sand: {estimate.sand}</ThemedText>
                 </View>
                 <View style={styles.materialChip}>
-                  <ThemedText type="caption">Bricks: {estimate.bricks}</ThemedText>
+                  <ThemedText type="small" style={{ fontSize: 12 }}>Bricks: {estimate.bricks}</ThemedText>
                 </View>
                 <View style={styles.materialChip}>
-                  <ThemedText type="caption">Steel: {estimate.steel}</ThemedText>
+                  <ThemedText type="small" style={{ fontSize: 12 }}>Steel: {estimate.steel}</ThemedText>
                 </View>
                 <View style={styles.materialChip}>
-                  <ThemedText type="caption">Aggregate: {estimate.aggregate}</ThemedText>
+                  <ThemedText type="small" style={{ fontSize: 12 }}>Aggregate: {estimate.aggregate}</ThemedText>
                 </View>
               </View>
             </View>
