@@ -28,8 +28,11 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [selectedWorker, setSelectedWorker] = useState<Worker | null>(null);
   const [workerName, setWorkerName] = useState('');
-  const [hoursWorked, setHoursWorked] = useState('');
+  const [daysWorked, setDaysWorked] = useState('');
+  const [regularHours, setRegularHours] = useState('');
+  const [overtimeHours, setOvertimeHours] = useState('0');
   const [hourlyRate, setHourlyRate] = useState('');
+  const [overtimeRate, setOvertimeRate] = useState('');
   const [notes, setNotes] = useState('');
   const [isPaid, setIsPaid] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -39,18 +42,27 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
     loadWorkers();
   }, []);
 
+  useEffect(() => {
+    if (hourlyRate) {
+      setOvertimeRate((parseFloat(hourlyRate) * 1.5).toString());
+    }
+  }, [hourlyRate]);
+
   const loadWorkers = async () => {
     const data = await getWorkers();
     setWorkers(data);
   };
 
-  const totalAmount = (parseFloat(hoursWorked) || 0) * (parseFloat(hourlyRate) || 0);
+  const regularAmount = (parseFloat(regularHours) || 0) * (parseFloat(hourlyRate) || 0);
+  const overtimeAmount = (parseFloat(overtimeHours) || 0) * (parseFloat(overtimeRate) || 0);
+  const totalAmount = regularAmount + overtimeAmount;
 
   const handleSelectWorker = (worker: Worker) => {
     Haptics.selectionAsync();
     setSelectedWorker(worker);
     setWorkerName(worker.name);
     setHourlyRate(worker.hourlyRate.toString());
+    setOvertimeRate((worker.hourlyRate * 1.5).toString());
     setShowWorkerInput(false);
   };
 
@@ -59,10 +71,11 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
     setSelectedWorker(null);
     setWorkerName('');
     setHourlyRate('');
+    setOvertimeRate('');
   };
 
   const handleSave = async () => {
-    if (!workerName || !hoursWorked || !hourlyRate) return;
+    if (!workerName || !daysWorked || !regularHours || !hourlyRate) return;
 
     setSaving(true);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -85,8 +98,11 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
         id: generateId(),
         workerId: workerId!,
         workerName,
-        hoursWorked: parseFloat(hoursWorked),
+        daysWorked: parseFloat(daysWorked),
+        regularHours: parseFloat(regularHours),
+        overtimeHours: parseFloat(overtimeHours) || 0,
         hourlyRate: parseFloat(hourlyRate),
+        overtimeRate: parseFloat(overtimeRate) || parseFloat(hourlyRate) * 1.5,
         totalAmount,
         weekStart,
         isPaid,
@@ -181,16 +197,39 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
       ) : null}
 
       <View style={styles.row}>
-        <View style={styles.halfField}>
+        <View style={styles.thirdField}>
           <InputField
-            label="Hours Worked"
-            value={hoursWorked}
-            onChangeText={setHoursWorked}
+            label="Days"
+            value={daysWorked}
+            onChangeText={setDaysWorked}
             placeholder="0"
             keyboardType="numeric"
-            testID="input-hours"
+            testID="input-days"
           />
         </View>
+        <View style={styles.thirdField}>
+          <InputField
+            label="Regular Hrs"
+            value={regularHours}
+            onChangeText={setRegularHours}
+            placeholder="0"
+            keyboardType="numeric"
+            testID="input-regular-hours"
+          />
+        </View>
+        <View style={styles.thirdField}>
+          <InputField
+            label="OT Hrs"
+            value={overtimeHours}
+            onChangeText={setOvertimeHours}
+            placeholder="0"
+            keyboardType="numeric"
+            testID="input-overtime-hours"
+          />
+        </View>
+      </View>
+
+      <View style={styles.row}>
         <View style={styles.halfField}>
           <InputField
             label="Hourly Rate"
@@ -201,15 +240,33 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
             testID="input-rate"
           />
         </View>
+        <View style={styles.halfField}>
+          <InputField
+            label="OT Rate (1.5x)"
+            value={overtimeRate}
+            onChangeText={setOvertimeRate}
+            placeholder="0"
+            keyboardType="numeric"
+            testID="input-ot-rate"
+          />
+        </View>
       </View>
 
       <View style={[styles.totalCard, { backgroundColor: theme.backgroundDefault }]}>
-        <ThemedText type="small" style={{ color: theme.textSecondary }}>
-          Total Amount
-        </ThemedText>
-        <ThemedText type="h2" style={{ color: theme.secondary }}>
-          {'\u20B9'}{totalAmount.toLocaleString('en-IN')}
-        </ThemedText>
+        <View style={styles.breakdownRow}>
+          <ThemedText type="small" style={{ color: theme.textSecondary }}>Regular:</ThemedText>
+          <ThemedText type="body">{'\u09F3'}{regularAmount.toLocaleString()}</ThemedText>
+        </View>
+        <View style={styles.breakdownRow}>
+          <ThemedText type="small" style={{ color: theme.textSecondary }}>Overtime:</ThemedText>
+          <ThemedText type="body">{'\u09F3'}{overtimeAmount.toLocaleString()}</ThemedText>
+        </View>
+        <View style={[styles.breakdownRow, styles.totalRow]}>
+          <ThemedText type="body" style={{ fontWeight: '600' }}>Total Amount</ThemedText>
+          <ThemedText type="h2" style={{ color: theme.secondary }}>
+            {'\u09F3'}{totalAmount.toLocaleString()}
+          </ThemedText>
+        </View>
       </View>
 
       <InputField
@@ -244,12 +301,12 @@ export default function AddPaymentScreen({ navigation, route }: AddPaymentScreen
 
       <Pressable
         onPress={handleSave}
-        disabled={saving || !workerName || !hoursWorked || !hourlyRate}
+        disabled={saving || !workerName || !daysWorked || !regularHours || !hourlyRate}
         style={[
           styles.saveButton,
           {
             backgroundColor: theme.secondary,
-            opacity: saving || !workerName || !hoursWorked || !hourlyRate ? 0.5 : 1,
+            opacity: saving || !workerName || !daysWorked || !regularHours || !hourlyRate ? 0.5 : 1,
           },
         ]}
         testID="button-save"
@@ -311,11 +368,25 @@ const styles = StyleSheet.create({
   halfField: {
     flex: 1,
   },
+  thirdField: {
+    flex: 1,
+  },
   totalCard: {
     padding: Spacing.lg,
     borderRadius: BorderRadius.md,
-    alignItems: 'center',
     marginBottom: Spacing.lg,
+  },
+  breakdownRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.xs,
+  },
+  totalRow: {
+    marginTop: Spacing.sm,
+    paddingTop: Spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
   },
   paidToggle: {
     flexDirection: 'row',

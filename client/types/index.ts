@@ -23,12 +23,28 @@ export interface LaborPayment {
   id: string;
   workerId: string;
   workerName: string;
-  hoursWorked: number;
+  daysWorked: number;
+  regularHours: number;
+  overtimeHours: number;
   hourlyRate: number;
+  overtimeRate: number;
   totalAmount: number;
   weekStart: string;
   isPaid: boolean;
   notes: string;
+  createdAt: string;
+}
+
+export interface MaterialEstimate {
+  id: string;
+  name: string;
+  area: number;
+  floors: number;
+  cement: number;
+  sand: number;
+  bricks: number;
+  steel: number;
+  aggregate: number;
   createdAt: string;
 }
 
