@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "J&S Accounting",
-    "slug": "js-accounting",
+    "name": "J&S Accounting BD",
+    "slug": "js-accounting-bd",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "js-accounting",
+    "scheme": "js-accounting-bd",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jsaccounting.app"
+      "bundleIdentifier": "com.sabujdotnet.jsaccounting"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,11 +19,12 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.jsaccounting.app"
+      "package": "com.sabujdotnet.jsaccounting"
     },
     "web": {
       "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       [
@@ -47,6 +48,8 @@
       "eas": {
         "projectId": "ccea1b55-9a26-4b46-9028-d8121f1b5ad3"
       }
-    }
+    },
+    "owner": "sabujdotnet",
+    "githubUrl": "https://github.com/sabujdotnet/js-account"
   }
 }
