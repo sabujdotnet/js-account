@@ -60,3 +60,20 @@ export interface FinancialSummary {
 }
 
 export type PeriodFilter = 'week' | 'month' | 'year';
+
+/**
+ * Bangladesh currency settings
+ */
+export interface CurrencySettings {
+  code: 'BDT';
+  symbol: '৳';
+  name: 'Bangladeshi Taka';
+  locale: 'bn-BD';
+}
+
+export const DEFAULT_CURRENCY: CurrencySettings = {
+  code: 'BDT',
+  symbol: '৳',
+  name: 'Bangladeshi Taka',
+  locale: 'bn-BD',
+};

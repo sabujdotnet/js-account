@@ -2,11 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Transaction, LaborPayment, Worker, Plugin } from '@/types';
 
 const KEYS = {
-  TRANSACTIONS: '@buildledger_transactions',
-  LABOR_PAYMENTS: '@buildledger_labor_payments',
-  WORKERS: '@buildledger_workers',
-  PLUGINS: '@buildledger_plugins',
-  SETTINGS: '@buildledger_settings',
+  TRANSACTIONS: '@sabujdotnet_transactions',
+  LABOR_PAYMENTS: '@sabujdotnet_labor_payments',
+  WORKERS: '@sabujdotnet_workers',
+  PLUGINS: '@sabujdotnet_plugins',
+  SETTINGS: '@sabujdotnet_settings',
 };
 
 export async function getTransactions(): Promise<Transaction[]> {
@@ -173,7 +173,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'file-text',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
     {
       id: 'project-tracker',
@@ -183,7 +183,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'folder',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
     {
       id: 'tax-calculator',
@@ -193,7 +193,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'percent',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
     {
       id: 'receipt-scanner',
@@ -203,7 +203,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'camera',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
     {
       id: 'budget-planner',
@@ -213,7 +213,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'pie-chart',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
     {
       id: 'export-reports',
@@ -223,7 +223,7 @@ function getDefaultPlugins(): Plugin[] {
       icon: 'download',
       isInstalled: false,
       isEnabled: false,
-      author: 'BuildLedger Team',
+      author: 'sabujdotnet',
     },
   ];
 }
@@ -247,18 +247,25 @@ export function getWeekEnd(weekStart: string): string {
   return d.toISOString().split('T')[0];
 }
 
+/**
+ * Format currency using Bangladeshi Taka (BDT)
+ * Uses the Bengali locale (bn-BD) for proper formatting
+ */
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
+  return new Intl.NumberFormat('bn-BD', {
     style: 'currency',
-    currency: 'INR',
+    currency: 'BDT',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
 }
 
+/**
+ * Format date using Bangladesh locale
+ */
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-IN', {
+  return date.toLocaleDateString('bn-BD', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -270,8 +277,8 @@ export function formatWeekRange(weekStart: string): string {
   const end = new Date(weekStart);
   end.setDate(end.getDate() + 6);
   
-  const startStr = start.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-  const endStr = end.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+  const startStr = start.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+  const endStr = end.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
   
   return `${startStr} - ${endStr}`;
 }
