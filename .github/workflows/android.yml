@@ -1,0 +1,49 @@
+name: BuildLedZer Android CI
+
+on:
+  push:
+    branches:
+      - main
+      - preview
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Expo Login
+        run: eas whoami
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Auto Increment Version (Main Only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          npm version patch --no-git-tag-version
+          echo "Version bumped"
+
+      - name: Build APK (Preview)
+        if: github.ref == 'refs/heads/preview'
+        run: eas build --platform android --profile preview --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build AAB (Production)
+        if: github.ref == 'refs/heads/main'
+        run: eas build --platform android --profile production --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
