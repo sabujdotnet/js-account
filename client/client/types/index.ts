@@ -19,6 +19,22 @@ export interface Worker {
   createdAt: string;
 }
 
+export interface WorkEntry {
+  id: string;
+  clientName: string;
+
+  days?: number;
+  hoursPerDay?: number;
+  hourlyRate?: number;
+
+  quantity?: number; // optional manual qty
+  unitPrice?: number;
+
+  total: number;
+  note?: string;
+  date: string;
+}
+
 export interface LaborPayment {
   id: string;
   workerId: string;
