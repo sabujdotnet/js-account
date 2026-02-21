@@ -19,6 +19,13 @@ export function calculateWorkAmount(
   return 0;
 }
 
+const total = calculateWorkAmount(
+  days,
+  hoursPerDay,
+  hourlyRate,
+  quantity,
+  unitPrice
+);
 export function workFormulaText(
   days?: number,
   hoursPerDay?: number,
@@ -26,4 +33,6 @@ export function workFormulaText(
 ): string {
   if (!days || !hoursPerDay || !hourlyRate) return "";
   return `${days}×${hoursPerDay}×${hourlyRate}`;
+  formula: workFormulaText(days, hoursPerDay, hourlyRate)
 }
+
